@@ -1,36 +1,31 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 
-import godfather from "../../assets/images/godfather.jpg";
-import pulp from "../../assets/images/pulp.jpg";
-import scarface from "../../assets/images/scarface.jpg";
 import { Container, Movie, MovieList } from "./style";
+import { APIKey } from "../../config/key";
 
 const Home = () => {
-  const movies = [
-    {
-      title: "Godfather",
-      image: godfather,
-    },
-    {
-      title: "Pulp",
-      image: pulp,
-    },
-    {
-      title: "Scarface",
-      image: scarface,
-    },
-  ];
+  const [movies, setMovies] = useState();
+  const image_path = "https://image.tmdb.org/t/p/w500";
+  useEffect(() => {
+    fetch(
+      `https://api.themoviedb.org/3/movie/popular?api_key=${APIKey}&language=en-US&page=1`,
+    )
+      .then((response) => response.json())
+      .then((data) => setMovies(data.results));
+  }, []);
 
-  console.log(movies);
   return (
     <Container>
       <h1>Movies</h1>
       <MovieList>
-        {movies.map((movie) => {
+        {movies?.map((movie) => {
           return (
-            <Movie>
+            <Movie key={movie.id}>
               <a href="#">
-                <img src={movie.image} alt={movie.title} />
+                <img
+                  src={`${image_path} ${movie.poster_path}`}
+                  alt={movie.title}
+                />
               </a>
               <span>{movie.title}</span>
             </Movie>

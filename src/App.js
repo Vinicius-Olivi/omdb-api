@@ -2,23 +2,23 @@ import { useEffect, useState } from "react";
 import "./App.css";
 import "./global.css";
 import Home from "./pages/Home/Home";
+import { APIKey } from "./config/key";
 
 const App = () => {
-  const [nasa, setNasa] = useState([]);
+  /*   const [movies, setMovies] = useState([]);
   const [errorData, setErrorData] = useState(null);
 
   const fetchHandler = async () => {
     try {
       let response = await fetch(
-        "https://api.nasa.gov/planetary/apod?api_key=" +
-          process.env.REACT_APP_API_KEY,
+        `https://api.themoviedb.org/3/movie/popular?api_key=${APIKey}&language=en-US&page=1`,
       );
-      console.log(response);
+
       if (!response.ok) {
         throw new Error(response.statusText);
       }
       let data = await response.json();
-      setNasa(data);
+      setMovies(data.results);
     } catch (error) {
       setErrorData("Could not fetch data");
       console.log(error.message);
@@ -27,17 +27,9 @@ const App = () => {
 
   useEffect(() => {
     fetchHandler();
-  }, []);
+  }, []); */
   return (
     <div className="App">
-      {/*       {errorData && <p>{errorData}</p>}
-      {nasa && nasa.url && (
-        <div>
-          <h1>{nasa.title}</h1>
-          <img src={nasa.url} alt={nasa.title} />
-          <p>{nasa.explanation}</p>
-        </div>
-      )} */}
       <Home />
     </div>
   );
