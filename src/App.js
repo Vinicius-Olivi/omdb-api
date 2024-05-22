@@ -1,11 +1,11 @@
 import { useEffect, useState } from "react";
 import "./App.css";
+import "./global.css";
+import Home from "./pages/Home/Home";
 
 const App = () => {
   const [nasa, setNasa] = useState([]);
   const [errorData, setErrorData] = useState(null);
-
-  console.log(nasa);
 
   const fetchHandler = async () => {
     try {
@@ -30,14 +30,15 @@ const App = () => {
   }, []);
   return (
     <div className="App">
-      {errorData && <p>{errorData}</p>}
+      {/*       {errorData && <p>{errorData}</p>}
       {nasa && nasa.url && (
         <div>
           <h1>{nasa.title}</h1>
           <img src={nasa.url} alt={nasa.title} />
           <p>{nasa.explanation}</p>
         </div>
-      )}
+      )} */}
+      <Home />
     </div>
   );
 };
