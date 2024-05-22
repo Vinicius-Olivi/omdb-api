@@ -1,25 +1,45 @@
-import logo from './logo.svg';
-import './App.css';
+import { useEffect, useState } from "react";
+import "./App.css";
 
-function App() {
+const App = () => {
+  const [nasa, setNasa] = useState([]);
+  const [errorData, setErrorData] = useState(null);
+
+  console.log(nasa);
+
+  const fetchHandler = async () => {
+    try {
+      let response = await fetch(
+        "https://api.nasa.gov/planetary/apod?api_key=" +
+          process.env.REACT_APP_API_KEY,
+      );
+      console.log(response);
+      if (!response.ok) {
+        throw new Error(response.statusText);
+      }
+      let data = await response.json();
+      setNasa(data);
+    } catch (error) {
+      setErrorData("Could not fetch data");
+      console.log(error.message);
+    }
+  };
+
+  useEffect(() => {
+    fetchHandler();
+  }, []);
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      {errorData && <p>{errorData}</p>}
+      {nasa && nasa.url && (
+        <div>
+          <h1>{nasa.title}</h1>
+          <img src={nasa.url} alt={nasa.title} />
+          <p>{nasa.explanation}</p>
+        </div>
+      )}
     </div>
   );
-}
+};
 
 export default App;
