@@ -5,6 +5,10 @@ export const Container = styled.div`
     text-align: center;
     margin: 4rem 0;
   }
+  #week {
+    color: aqua;
+    font-weight: bold;
+  }
 `;
 
 export const MovieList = styled.ul`
