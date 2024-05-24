@@ -4,7 +4,8 @@ import { APIKey } from "../config/key";
 
 const MovieComponent = ({ imageBasePath }) => {
   const [movies, setMovies] = useState([]);
-  const [errorData, setErrorData] = useState(null);
+  const [error, setError] = useState(null);
+  const [loading, setLoading] = useState(true);
 
   function getDate() {
     const today = new Date();
@@ -30,8 +31,10 @@ const MovieComponent = ({ imageBasePath }) => {
         let data = await response.json();
         setMovies(data.results);
       } catch (error) {
-        setErrorData("Could not fetch data");
+        setError("Could not fetch data");
         console.log(error.message);
+      } finally {
+        setLoading(false);
       }
     };
 
@@ -43,19 +46,25 @@ const MovieComponent = ({ imageBasePath }) => {
       <h1>
         Popular movies of the day <span id="week">{currentDate}</span>
       </h1>
-      <MovieList>
-        {movies.map((movie) => (
-          <Movie key={movie.id}>
-            <a href="#">
-              <img
-                src={`${imageBasePath}${movie.poster_path}`}
-                alt={movie.title}
-              />
-            </a>
-            <span>{movie.title}</span>
-          </Movie>
-        ))}
-      </MovieList>
+      {loading ? (
+        <div>Loading...</div>
+      ) : error ? (
+        <div>{error}</div>
+      ) : (
+        <MovieList>
+          {movies.map((movie) => (
+            <Movie key={movie.id}>
+              <a href="#">
+                <img
+                  src={`${imageBasePath}${movie.poster_path}`}
+                  alt={movie.title}
+                />
+              </a>
+              <span>{movie.title}</span>
+            </Movie>
+          ))}
+        </MovieList>
+      )}
     </Container>
   );
 };
